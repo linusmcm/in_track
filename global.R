@@ -3,7 +3,16 @@ library(shiny)
 library(tidyverse)
 library(dbplyr)
 library(bs4Dash)
+library(echarts4r)
+library(shinyWidgets)
 #install.packages("dbplyr")
+#install.packages("echarts4r", dependencies = T)
+# ------------------------------------------------------------- #
+utas_red <<- "#e42312"
+utas_black <<- "#000000"
+utas_white <<- "#FFFFFF"
+buttonStyle <<- "bordered"
+buttonSize <<- "md"
 # ------------------------------------------------------------- #
 databaseName <<- "g6Mj2lugZA"
 # ------------------------------------------------------------- #
@@ -31,20 +40,18 @@ saveData <- function(db, data) {
     )
     # Submit the update query and disconnect
     dbGetQuery(db, query)
-    dbDisconnect(db)
+    #dbDisconnect(db)
 }
 # ------------------------------------------------------------- #
-loadData <- function(db) 
+loadData <- function(table) 
 {
-    # Connect to the database
-    # Construct the fetching query
     query <- sprintf("SELECT * FROM %s", table)
     # Submit the fetch query and disconnect
     data <- dbGetQuery(db, query)
-    dbDisconnect(db)
-    data
+    #dbDisconnect(db)
+    return(data)
 }
 # ------------------------------------------------------------- #
-loadData(db)
+loadData(table)
 # ------------------------------------------------------------- #
 
