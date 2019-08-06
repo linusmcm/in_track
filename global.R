@@ -5,14 +5,12 @@ library(dbplyr)
 library(bs4Dash)
 library(echarts4r)
 library(shinyWidgets)
-#install.packages("dbplyr")
-#install.packages("echarts4r", dependencies = T)
 # ------------------------------------------------------------- #
 utas_red <<- "#e42312"
 utas_black <<- "#000000"
 utas_white <<- "#FFFFFF"
 buttonStyle <<- "bordered"
-buttonSize <<- "md"
+buttonSize <<- "sm"
 # ------------------------------------------------------------- #
 databaseName <<- "g6Mj2lugZA"
 # ------------------------------------------------------------- #
@@ -23,14 +21,16 @@ options(mysql = list(
     "password" = "ipYc79lTd0"
 ))
 # ------------------------------------------------------------- #
-table <- "colleges"
-db <- dbConnect(MySQL(), dbname = databaseName, host = options()$mysql$host, 
-                port = options()$mysql$port, user = options()$mysql$user, 
-                password = options()$mysql$password)
-# ------------------------------------------------------------- #
-saveData <- function(db, data) {
-    # Connect to the database
+options(shiny.trace=TRUE)
 
+
+# ------------------------------------------------------------- #
+saveData <- function(db, data) 
+{
+    # Connect to the database
+    db <- dbConnect(MySQL(), dbname = databaseName, host = options()$mysql$host, 
+                    port = options()$mysql$port, user = options()$mysql$user, 
+                    password = options()$mysql$password)
     # Construct the update query by looping over the data fields
     query <- sprintf(
         "INSERT INTO %s (%s) VALUES ('%s')",
@@ -43,15 +43,18 @@ saveData <- function(db, data) {
     #dbDisconnect(db)
 }
 # ------------------------------------------------------------- #
-loadData <- function(table) 
+load_nav_bar_menu <- function() 
 {
-    query <- sprintf("SELECT * FROM %s", table)
-    # Submit the fetch query and disconnect
-    data <- dbGetQuery(db, query)
-    #dbDisconnect(db)
-    return(data)
+    db <- dbConnect(MySQL(), dbname = databaseName, host = options()$mysql$host, 
+                    port = options()$mysql$port, user = options()$mysql$user, 
+                    password = options()$mysql$password)
+    
+    colleges <- tbl(db, "colleges") %>% collect()
+    dbDisconnect(db)
+    return(colleges)
 }
 # ------------------------------------------------------------- #
-loadData(table)
+#dbDisconnect(db)
+#temp <- load_nav_bar_menu()
 # ------------------------------------------------------------- #
 
