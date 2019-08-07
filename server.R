@@ -48,6 +48,7 @@ output$fourthButton <- renderUI(
 # ------------------------------------------------------------- #
 # inital load page ######
 output$body <- renderUI({ fluidPage("Summary", summary_moduleUI("summary_interface")) })
+output$left_side_nav_buttons <- renderUI({   })
 # ------------------------------------------------------------- #
 # COSE ####
 # ------------------------------------------------------------- #
@@ -55,7 +56,19 @@ observeEvent(input$COSE,
 {
     nav_bar_item <- nav_bar_df() %>% filter(college_short_name == "COSE")
     output$sideTilte <- renderUI({ bs4SidebarUserPanel(img = "utas-logo-int.png", text = substring(nav_bar_item$college_long_name, 12)) })
-})
+    output$left_side_nav_buttons <- renderUI(
+        { 
+        tagList(bs4SidebarMenuItem(
+            "Item 1",
+            tabName = "item1",
+            icon = "sliders"),
+        bs4SidebarMenuItem(
+            "Item 2",
+            tabName = "item2",
+            icon = "id-card"),
+        actionButton(inputId = "add_stratergy", "add button "))
+        })
+    })
 # ------------------------------------------------------------- #
 # COBE ####
 # ------------------------------------------------------------- #
@@ -87,7 +100,9 @@ observeEvent(input$COHM,
 # ------------------------------------------------------------------------ #
 # summary_module ####
 # ------------------------------------------------------------------------ #
-callModule(summary_module, "summary_interface")
+callModule(summary_module
+           , "summary_interface"
+           , nav_bar_df = reactive(nav_bar_df()))
 # ------------------------------------------------------------------------ #
 # END MODULES ###################################
 # ------------------------------------------------------------------------ #
