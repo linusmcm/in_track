@@ -28,25 +28,15 @@ shinyUI(
             status = "danger",
             title = "UTAS - Initiative Tracker",
             brandColor = "danger",
-            url = "https://www.utas.edu.au",
+            url = "http://127.0.0.1:4975/",
             #src = "www/utas-logo-int.png",
             elevation = 5,
             opacity = 1,
             uiOutput("sideTilte"),
             bs4SidebarMenu(
                 id = "testLeftBar",
-               # bs4SidebarHeader("Header 1"),
-                bs4SidebarMenuItem(
-                    "Item 1",
-                    tabName = "item1",
-                    icon = "sliders"
-                ),
-                bs4SidebarMenuItem(
-                    "Item 2",
-                    tabName = "item2",
-                    icon = "id-card"
-                )
-            )
+                uiOutput("left_side_nav_buttons"))
+    
         ),
         # ---------------------------------------------------------------------- #
         controlbar = bs4DashControlbar(disable =T),
