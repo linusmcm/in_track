@@ -89,49 +89,6 @@ summary_module <- function(input, output, session, nav_bar_df)
   # ------------------------------------------------------------------------#
   # ------------------------------------------------------------------------#
   output$cohmValueYellow <- renderbs4ValueBox({
-                                bs4ValueBox(
-                                  value = 150
-                                  , subtitle = paste0(nav_bar_DF()$college_short_name[4],  " - Issues")
-                                  , status = "warning"
-                                  , icon = "exclamation-triangle"
-                                  , elevation = 5
-                                  , href = "#")
-  })
-  # ------------------------------------------------------------------------#c
-  output$coseValueYellow <- renderbs4ValueBox({
-                                bs4ValueBox(
-                                  value = 150
-                                  , subtitle = paste0(nav_bar_DF()$college_short_name[3],  " - Issues")
-                                  , status = "warning"
-                                  , icon = "exclamation-triangle"
-                                  , elevation = 5
-                                  , href = "#")
-  })
-  # ------------------------------------------------------------------------#
-  output$caleValueYellow <- renderbs4ValueBox({
-                                bs4ValueBox(
-                                  value = 150
-                                  , subtitle = paste0(nav_bar_DF()$college_short_name[2],  " - Issues")
-                                  , status = "warning"
-                                  , icon = "exclamation-triangle"
-                                  , elevation = 5
-                                  , href = "#")
-  })
-  # ------------------------------------------------------------------------#
-  output$cobeValueYellow <- renderbs4ValueBox({
-                                  bs4ValueBox(
-                                    value = 150
-                                    , subtitle = paste0(nav_bar_DF()$college_short_name[1],  " - Issues")
-                                    , status = "warning"
-                                    , icon = "exclamation-triangle"
-                                    , elevation = 5
-                                    , href = "#")
-  })
-  # ------------------------------------------------------------------------#
-  # ------------------------------------------------------------------------#
-  # ------------------------------------------------------------------------#
-  # ------------------------------------------------------------------------#
-  output$cohmValueRed <- renderbs4ValueBox({
                               bs4ValueBox(
                                 value = 150
                                 , subtitle = paste0(nav_bar_DF()$college_short_name[4],  " - At Risk")
@@ -162,13 +119,13 @@ summary_module <- function(input, output, session, nav_bar_df)
   })
   # ------------------------------------------------------------------------#
   output$cobeValueRed <- renderbs4ValueBox({
-    bs4ValueBox(
-      value = 150
-      , subtitle = paste0(nav_bar_DF()$college_short_name[1],  " - At Risk")
-      , status = "danger"
-      , icon = "bomb"
-      , elevation = 5
-      , href = "#")
+                              bs4ValueBox(
+                                value = 150
+                                , subtitle = paste0(nav_bar_DF()$college_short_name[1],  " - At Risk")
+                                , status = "danger"
+                                , icon = "bomb"
+                                , elevation = 5
+                                , href = "#")
   })
   # ------------------------------------------------------------------------#
   # ------------------------------------------------------------------------#
