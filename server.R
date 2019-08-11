@@ -66,30 +66,25 @@ observeEvent(input$COSE,
     output$left_side_nav_buttons <- renderUI(
         { 
         tagList(
-                actionBttn(inputId = "add_stratergy"
-                   , label = "Add Stratergy"
+                actionBttn(inputId = "add_strategy"
+                   , label = "Add Strategy"
                    , size = buttonSize
                    , icon = NULL
                    , style= buttonStyle
                    , block = T))
         })
-    
     output$body <- renderUI(
         {
             #___BODY - Speciality_Overview ####
             tabBox(
-                #title = paste0(sectionTab, ifelse(is_empty(theDates()), "", as.character(theDates()))),
-                #title = paste0(sectionTab), 
-                # The id lets us use input$tabset1 on the server to find the current tab
-                #id = paste0(sectionTab,"_tab"), 
-                id = "tab_id"
+                id = paste0(nav_bar_item$college_short_name,"_tab")
                 , width = 12 
                 , title = nav_bar_item$college_long_name
                 #, headerBorder = T
                 # ------------------------------------------------------------------------ #git checkout 
                 # ------------------------------------------------------------------------ #
                 , bs4TabPanel(
-                    tabName = "t1"
+                    tabName = paste0("Strategy - ", nav_bar_item$college_short_name)
                     , active = TRUE
                     , "DMS Item Codes"
                     , "Summary"
@@ -97,21 +92,21 @@ observeEvent(input$COSE,
                 ), 
                 # ------------------------------------------------------------------------ #
                 bs4TabPanel(
-                    tabName = "t2"
+                    tabName = paste0("Initiative - ", nav_bar_item$college_short_name)
                     , active = F
                     , "DMS Item Codes"
                     , "Demographics"
                        #  , demographics_moduleUI("demographics_interface")
                 ), 
                 bs4TabPanel(
-                    tabName = "t3"
+                    tabName = paste0("Milestone - ", nav_bar_item$college_short_name)
                     , active = F
                     , "DMS Item Codes"
                         # , dms_item_codes_moduleUI("dms_item_codes_interface")
                 ),
                 # ------------------------------------------------------------------------ #
                 bs4TabPanel(
-                    tabName = "t4"
+                    tabName = paste0("Spare - ", nav_bar_item$college_short_name)
                     , active = F
                     , "DMS Item Codes"
                     , "Provider Group Profile"
@@ -121,11 +116,7 @@ observeEvent(input$COSE,
                 # ------------------------------------------------------------------------ #
             ) # end tabBox
         }) # END renderUI
-             
-    
-    
-    
-    })
+})
 # ------------------------------------------------------------- #
 # COBE ####
 # ------------------------------------------------------------- #
@@ -150,6 +141,11 @@ observeEvent(input$COHM,
     nav_bar_item <- nav_bar_df() %>% filter(college_short_name == "COHM")
     output$sideTilte <- renderUI({ bs4SidebarUserPanel(img = "utas-logo-int.png", text = substring(nav_bar_item$college_long_name, 12)) })
 })
+# ------------------------------------------------------------------------ #
+observeEvent(input$add_stratergy,
+             {
+                 showModal(strategy_load())
+             })
 # ------------------------------------------------------------------------ #
 # ------------------------------------------------------------------------ #
 # MODULES ###################################
