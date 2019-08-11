@@ -18,7 +18,7 @@ shinyUI(
             border = T,
             sidebarIcon = "bars",
             controlbarIcon = "th",
-            fixed = T,
+            fixed = F,
             elevation = 5,
             opacity = 1,
             leftUi = tagList(uiOutput("firstButton"), uiOutput("secondButton"), uiOutput("thirdButton"), uiOutput("fourthButton"))),
@@ -34,7 +34,7 @@ shinyUI(
             opacity = 1,
             uiOutput("sideTilte"),
             bs4SidebarMenu(
-                id = "testLeftBar",
+                id = "leftBar",
                 uiOutput("left_side_nav_buttons"))
     
         ),

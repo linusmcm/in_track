@@ -3,44 +3,38 @@ body {
     font-size: 15px;
     font-weight: 300;
     line-height: 1.5;
-    color: #fff;
+    color: #191818;
     text-align: left;
 }
-
+/*
 .sidebar-light-danger .sidebar a {
     color: #ffffff;
     font-weight: 400;
     text-align: center;
 }
+*/
 
-div.container-fluid {
-    width: 100%;
-    padding-top: 50px;
-    padding-right: 1px;
-    padding-left: 5px;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-
-a:hover, a:active {
-    color: #4CAF50;
-}
 
 .font-weight-light {
   font-family: "Verdana", verdana, sans;
   font-size: 14px;
-    font-weight: 500 !important;
+  font-weight: 500 !important;
 
 }
 
 .bg-danger, .alert-danger, .alert-error, .label-danger {
     background-color: #e42312 !important;
-
 }
 
 .sidebar-light-danger {
-
     background-color: #e42312!important;
+}
 
+h3.card-title.p-3.ml-auto{
+ color: #e42312; 
+  
+  
+}  
+}
+  
 }

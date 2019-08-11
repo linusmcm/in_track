@@ -5,6 +5,16 @@ library(dbplyr)
 library(bs4Dash)
 library(echarts4r)
 library(shinyWidgets)
+
+library(shinymaterial)
+# ------------------------------------------------------------- #
+#install.packages("golem")
+library(golem)
+#install.packages("shinymaterial")
+library(gt)
+library(RJDBC)
+#install.packages("RJDBC",dep=TRUE)
+#remotes::install_github("rstudio/gt")
 # ------------------------------------------------------------- #
 utas_red <<- "#e42312"
 utas_black <<- "#000000"
@@ -14,6 +24,7 @@ buttonSize <<- "sm"
 # ------------------------------------------------------------- #
 databaseName <<- "g6Mj2lugZA"
 # ------------------------------------------------------------- #
+
 options(mysql = list(
     "host" = "remotemysql.com",
     "port" = 3306,
@@ -45,9 +56,12 @@ saveData <- function(db, data)
 # ------------------------------------------------------------- #
 load_nav_bar_menu <- function() 
 {
-    db <- dbConnect(MySQL(), dbname = databaseName, host = options()$mysql$host, 
-                    port = options()$mysql$port, user = options()$mysql$user, 
-                    password = options()$mysql$password)
+    db <- dbConnect(MySQL()
+                    , dbname = databaseName
+                    , host = options()$mysql$host
+                    , port = options()$mysql$port
+                    , user = options()$mysql$user
+                    , password = options()$mysql$password)
     
     colleges <- tbl(db, "colleges") %>% collect()
     dbDisconnect(db)

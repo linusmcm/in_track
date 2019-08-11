@@ -12,7 +12,8 @@ output$firstButton <- renderUI(
                , size = buttonSize
                , icon = NULL
                , style= buttonStyle
-               , block = T )
+               #, block = T 
+               )
 })
 # ------------------------------------------------------------- #
 output$secondButton <- renderUI(
@@ -22,7 +23,8 @@ output$secondButton <- renderUI(
                    , size = buttonSize
                    , icon = NULL
                    , style= buttonStyle
-                   , block = T )
+                   #, block = T 
+                   )
 })
 # ------------------------------------------------------------- #
 output$thirdButton <- renderUI(
@@ -32,18 +34,22 @@ output$thirdButton <- renderUI(
                    , size = buttonSize
                    , icon = NULL
                    , style= buttonStyle
-                   , block = T )
-    })
+                   #, block = T 
+                   )
+})
 # ------------------------------------------------------------- #
 output$fourthButton <- renderUI(
-    {
+{
         actionBttn(inputId = nav_bar_df()$college_short_name[4]
                    , label = nav_bar_df()$college_long_name [4]
                    , size = buttonSize
                    , icon = NULL
                    , style= buttonStyle
-                   , block = T )
-    })
+                   #, block = T 
+                    )
+})
+
+
 # ------------------------------------------------------------- #
 # ------------------------------------------------------------- #
 # inital load page ######
@@ -56,18 +62,69 @@ observeEvent(input$COSE,
 {
     nav_bar_item <- nav_bar_df() %>% filter(college_short_name == "COSE")
     output$sideTilte <- renderUI({ bs4SidebarUserPanel(img = "utas-logo-int.png", text = substring(nav_bar_item$college_long_name, 12)) })
+    # output$body <- renderUI({ fluidPage("Main", main_module_UI("main_interface")) })
     output$left_side_nav_buttons <- renderUI(
         { 
-        tagList(bs4SidebarMenuItem(
-            "Item 1",
-            tabName = "item1",
-            icon = "sliders"),
-        bs4SidebarMenuItem(
-            "Item 2",
-            tabName = "item2",
-            icon = "id-card"),
-        actionButton(inputId = "add_stratergy", "add button "))
+        tagList(
+                actionBttn(inputId = "add_stratergy"
+                   , label = "Add Stratergy"
+                   , size = buttonSize
+                   , icon = NULL
+                   , style= buttonStyle
+                   , block = T))
         })
+    
+    output$body <- renderUI(
+        {
+            #___BODY - Speciality_Overview ####
+            tabBox(
+                #title = paste0(sectionTab, ifelse(is_empty(theDates()), "", as.character(theDates()))),
+                #title = paste0(sectionTab), 
+                # The id lets us use input$tabset1 on the server to find the current tab
+                #id = paste0(sectionTab,"_tab"), 
+                id = "tab_id"
+                , width = 12 
+                , title = nav_bar_item$college_long_name
+                #, headerBorder = T
+                # ------------------------------------------------------------------------ #git checkout 
+                # ------------------------------------------------------------------------ #
+                , bs4TabPanel(
+                    tabName = "t1"
+                    , active = TRUE
+                    , "DMS Item Codes"
+                    , "Summary"
+                       #  , summary_moduleUI("summary_interface")
+                ), 
+                # ------------------------------------------------------------------------ #
+                bs4TabPanel(
+                    tabName = "t2"
+                    , active = F
+                    , "DMS Item Codes"
+                    , "Demographics"
+                       #  , demographics_moduleUI("demographics_interface")
+                ), 
+                bs4TabPanel(
+                    tabName = "t3"
+                    , active = F
+                    , "DMS Item Codes"
+                        # , dms_item_codes_moduleUI("dms_item_codes_interface")
+                ),
+                # ------------------------------------------------------------------------ #
+                bs4TabPanel(
+                    tabName = "t4"
+                    , active = F
+                    , "DMS Item Codes"
+                    , "Provider Group Profile"
+                        # , pgp_moduleUI("pgp_interface")
+                )
+                # ------------------------------------------------------------------------ #
+                # ------------------------------------------------------------------------ #
+            ) # end tabBox
+        }) # END renderUI
+             
+    
+    
+    
     })
 # ------------------------------------------------------------- #
 # COBE ####
@@ -102,6 +159,11 @@ observeEvent(input$COHM,
 # ------------------------------------------------------------------------ #
 callModule(summary_module
            , "summary_interface"
+           , nav_bar_df = reactive(nav_bar_df()))
+# ------------------------------------------------------------------------ #
+# ------------------------------------------------------------------------ #
+callModule(main_module
+           , "main_interface"
            , nav_bar_df = reactive(nav_bar_df()))
 # ------------------------------------------------------------------------ #
 # END MODULES ###################################
