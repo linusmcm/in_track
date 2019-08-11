@@ -71,4 +71,28 @@ load_nav_bar_menu <- function()
 #dbDisconnect(db)
 temp <- load_nav_bar_menu()
 # ------------------------------------------------------------- #
-
+# ------------------------------------------------------------- #
+strategy_load <- function(failed = FALSE) 
+{
+    modalDialog(
+          size = "l"
+        , easyClose = T
+        , title = "Load Strategy",
+        #uiOutput("welcomeText"),
+        #uiOutput("overAll_sections"),
+        #uiOutput("sub_section"),
+        #uiOutput("speciality_select"),
+        #uiOutput("theCalender"),
+        
+        if (failed)
+            div(tags$b(" ", style = "color: red;")),
+        
+        footer = tagList(
+           # h6(textOutput("versionText")),
+            #modalButton("Cancel"),
+            actionButton("okR", "OK")
+        )
+    )
+}
+# ------------------------------------------------------------- #
+# ------------------------------------------------------------- #
