@@ -21,14 +21,21 @@ shinyUI(
             fixed = F,
             elevation = 5,
             opacity = 1,
-            leftUi = tagList(uiOutput("firstButton"), uiOutput("secondButton"), uiOutput("thirdButton"), uiOutput("fourthButton"))),
+            leftUi = tagList(
+                              uiOutput("firstButton")
+                            , uiOutput("secondButton")
+                            , uiOutput("thirdButton")
+                            , uiOutput("fourthButton")
+                            #, uiOutput("loadMarker")
+                             )),
         # ---------------------------------------------------------------------- #
         sidebar = bs4DashSidebar(
             skin = "light",
             status = "danger",
             title = "UTAS - Initiative Tracker",
             brandColor = "danger",
-            url = "http://127.0.0.1:4975/",
+            url = "http://127.0.0.1:5276/",
+            #url = verbatimTextOutput("loadMarker"),
             #src = "www/utas-logo-int.png",
             elevation = 5,
             opacity = 1,
@@ -36,7 +43,6 @@ shinyUI(
             bs4SidebarMenu(
                 id = "leftBar",
                 uiOutput("left_side_nav_buttons"))
-    
         ),
         # ---------------------------------------------------------------------- #
         controlbar = bs4DashControlbar(disable =T),
