@@ -5,7 +5,6 @@ library(dbplyr)
 library(bs4Dash)
 library(echarts4r)
 library(shinyWidgets)
-library(shinymaterial)
 library(RODBC)
 library(DBI)
 library(pool)
@@ -17,11 +16,14 @@ library(pool)
 #library(RJDBC)
 #install.packages("RODBC", dependencies = T)
 
-#install.packages("pool")
+#install.packages(c("pool", "shinyWidgets", "bs4Dash"))
 #install.packages("odbc")
 #devtools::install_github("r-lib/vctrs")
 #install.packages("DBI", dependencies = T)
 #install.packages("shinymaterial")
+
+
+
 #install.packages("golem")
 #install.packages("RJDBC",dep=TRUE)
 #remotes::install_github("rstudio/gt")
