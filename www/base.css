@@ -6,13 +6,10 @@ body {
     color: #191818;
     text-align: left;
 }
-/*
-.sidebar-light-danger .sidebar a {
-    color: #ffffff;
-    font-weight: 400;
-    text-align: center;
+
+.container-fluid {
+    padding-top: 10px !important;
 }
-*/
 
 
 .font-weight-light {
@@ -32,9 +29,13 @@ body {
 
 h3.card-title.p-3.ml-auto{
  color: #e42312; 
-  
-  
-}  
 }
-  
+
+.col-sm-12 {
+    padding-top: 10px !important;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #e42312;
 }
