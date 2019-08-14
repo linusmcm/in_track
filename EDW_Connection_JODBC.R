@@ -3,7 +3,7 @@ library(RJDBC)
 #install.packages("RJDBC",dep=TRUE)
 
 
-jdbcDriver = JDBC("oracle.jdbc.OracleDriver",classPath=paste0(getwd(),"/OJDBC/ojdbc6.jar"))
+jdbcDriver <- JDBC("oracle.jdbc.OracleDriver",classPath=paste0(getwd(),"/OJDBC/ojdbc6.jar"))
 myconn  <- dbConnect(jdbcDriver
                , "jdbc:oracle:thin:@//exa2-scan.its.utas.edu.au:1521/edwdev_maa"
                , rstudioapi::askForPassword("Database user")
