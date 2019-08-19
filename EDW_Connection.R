@@ -6,7 +6,11 @@
 
 # Load library
 library("RODBC")
+<<<<<<< HEAD
 library(RMySQL)
+=======
+
+>>>>>>> 0fa118bcfd954ec56d65ca9553acf9f810c5f38b
 
 # Input userid and password to set up connection.
 myconn <-odbcConnect("EDWDEV_64BIT", 

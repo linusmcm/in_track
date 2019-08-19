@@ -44,6 +44,11 @@ pool <<- dbPool(
 
 dbListTables(myconn)
 dbListFields(conn, "help_category", "n%")
+jdbcDriver <- JDBC("oracle.jdbc.OracleDriver",classPath=paste0(getwd(),"/OJDBC/ojdbc6.jar"))
+myconn  <- dbConnect(jdbcDriver
+               , "jdbc:oracle:thin:@//exa2-scan.its.utas.edu.au:1521/edwdev_maa"
+               , rstudioapi::askForPassword("Database user")
+               , rstudioapi::askForPassword("Database password"))
 
 
 # Retrieve and list all the tables 
