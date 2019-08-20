@@ -76,8 +76,6 @@ data_connection <- function()
                     , password = options()$mysql$password)) 
 }
 # ------------------------------------------------------------- #
-load_nav_bar_menu()
-
 load_nav_bar_menu <- function() 
 {
     colleges <- dbGetQuery(db, "SELECT * FROM colleges")
