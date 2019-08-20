@@ -47,7 +47,7 @@ options(mysql = list(
 #                , rstudioapi::askForPassword("Database password"))
 # ------------------------------------------------------------- #
 jdbcDriver <- JDBC(driverClass="com.mysql.cj.jdbc.Driver"
-                   ,classPath=paste0(getwd(),"/OJDBC/mysql_connector/mysql-connector-java-8.0.17.jar")
+                   ,classPath=paste0(getwd(),"/OJDBC/mysql-connector-java-8.0.17.jar")
                    , identifier.quote="`")
 db <<- dbConnect(jdbcDriver, "jdbc:mysql://remotemysql.com:3306/g6Mj2lugZA","g6Mj2lugZA","ipYc79lTd0")
 # ------------------------------------------------------------- #
