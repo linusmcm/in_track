@@ -39,6 +39,10 @@ options(mysql = list(
     "password" = "ipYc79lTd0"
 ))
 # ------------------------------------------------------------- #
+# GLOBAL UI STRINGS ####
+# ------------------------------------------------------------- #
+MILESTONE_PROGRESS_STATUS <<- c("Milestone Complete",  "Milestone On Track", "Milestone Has Issues", "Milestone At Risk")
+# ------------------------------------------------------------- #
 # UTAS CONNECTION STRING ####
 # ------------------------------------------------------------- #
 #jdbcDriver <- JDBC("oracle.jdbc.OracleDriver",classPath=paste0(getwd(),"/OJDBC/ojdbc6.jar"))
