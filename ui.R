@@ -22,10 +22,10 @@ shinyUI(
             elevation = 5,
             opacity = 1,
             leftUi = tagList(
-                              uiOutput("firstButton")
-                            , uiOutput("secondButton")
-                            , uiOutput("thirdButton")
-                            , uiOutput("fourthButton")
+                            #   uiOutput("firstButton")
+                            # , uiOutput("secondButton")
+                            # , uiOutput("thirdButton")
+                            # , uiOutput("fourthButton")
                             #, uiOutput("loadMarker")
                              )),
         # ---------------------------------------------------------------------- #

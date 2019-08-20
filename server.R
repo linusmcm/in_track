@@ -1,11 +1,18 @@
 shinyServer(function(input, output, session) 
 {
+
+#track_usage(storage_mode = store_json(path = paste0(getwd(),"/logs"))) 
+track_usage(storage_mode = store_rds(path = paste0(getwd(),"/logs")))    
+    
 # ------------------------------------------------------------- #
 # INITIAL Loader ######
 # ------------------------------------------------------------- #    
 # REACTIVE VALUES ###################################
-# ------------------------------------------------------------- #    
+# ------------------------------------------------------------- #  
+user_name <- reactiveVal(NULL)
+user_password <- reactiveVal(NULL)
 college_vector <- reactiveVal(NULL)
+u_id <- reactiveVal(NULL) # user id
 c_id <- reactiveVal(NULL) #college id to pass back to databases
 s_id <- reactiveVal(NULL) #strategy id to pass back to databases
 i_id <- reactiveVal(NULL) #initiative id to pass back to databases
@@ -17,48 +24,69 @@ actionType <- reactiveVal(NULL)
 milestone_end_date <- reactiveVal(NULL)
 milestone_start_date <- reactiveVal(NULL)
 # ------------------------------------------------------------- #    
+userInfo <- reactiveVal(NULL)
+userInfo(data.frame(sysname = Sys.info()[1],login = Sys.info()[6],user = Sys.info()[7],effective_user = Sys.info()[8]))
+# ------------------------------------------------------------- #    
 nav_bar_df <- reactive(load_nav_bar_menu())
+
 # ------------------------------------------------------------- #
+onStart <- NULL
+# ------------------------------------------------------------- #
+if(is.null(onStart))
+{
+    showModal(load_user_Modal())
+}
+# ------------------------------------------------------------- #
+observeEvent(input$load_user_ok,
+             {
+                 c_id(unlist(req(nav_bar_df()) %>% filter(college_long_name == req(input$college_choice)) %>% select(college_id), use.names = F))
+                 #user_name(req(input$utas_username))
+                 #user_password(req(input$password_string))
+                 rValue <- add_user_data(c_id(), userInfo())
+                 if_else(rValue == T, removeModal(), NULL)
+                 #if_else(rValue == T, u_id(read_user(userInfo()$login)), NULL)
+                 onStart <- T
+             })
 # ------------------------------------------------------------- #
 # COSE ####
 # ------------------------------------------------------------- #
-observeEvent(input$COSE,
-{
-    nav_bar_item <- nav_bar_df() %>% filter(college_short_name == "COSE")
-    college_vector(nav_bar_item)
-    c_id(nav_bar_item$college_id)
-    output$sideTilte <- renderUI({ bs4SidebarUserPanel(img = "utas-logo-int.png", text = nav_bar_item$college_short_name) })
-})
-# ------------------------------------------------------------- #
-# COBE ####
-# ------------------------------------------------------------- #
-observeEvent(input$COBE,
-{
-    nav_bar_item <- nav_bar_df() %>% filter(college_short_name == "COBE")
-    college_vector(nav_bar_item)
-    c_id(nav_bar_item$college_id)
-    output$sideTilte <- renderUI({ bs4SidebarUserPanel(img = "utas-logo-int.png", text = nav_bar_item$college_short_name) })
-})
-# ------------------------------------------------------------- #
-# CALE ####
-# ------------------------------------------------------------- #
-observeEvent(input$CALE,
-{
-    nav_bar_item <- nav_bar_df() %>% filter(college_short_name == "CALE")
-    college_vector(nav_bar_item)
-    c_id(nav_bar_item$college_id)
-    output$sideTilte <- renderUI({ bs4SidebarUserPanel(img = "utas-logo-int.png", text = nav_bar_item$college_short_name) })
-})
-# ------------------------------------------------------------- #
-# COHM ####
-# ------------------------------------------------------------- #
-observeEvent(input$COHM,
-{
-    nav_bar_item <- nav_bar_df() %>% filter(college_short_name == "COHM")
-    college_vector(nav_bar_item)
-    c_id(nav_bar_item$college_id)
-    output$sideTilte <- renderUI({ bs4SidebarUserPanel(img = "utas-logo-int.png", text = nav_bar_item$college_short_name) })
-})
+# observeEvent(input$COSE,
+# {
+#     nav_bar_item <- nav_bar_df() %>% filter(college_short_name == "COSE")
+#     college_vector(nav_bar_item)
+#     c_id(nav_bar_item$college_id)
+#     output$sideTilte <- renderUI({ bs4SidebarUserPanel(img = "utas-logo-int.png", text = nav_bar_item$college_short_name) })
+# })
+# # ------------------------------------------------------------- #
+# # COBE ####
+# # ------------------------------------------------------------- #
+# observeEvent(input$COBE,
+# {
+#     nav_bar_item <- nav_bar_df() %>% filter(college_short_name == "COBE")
+#     college_vector(nav_bar_item)
+#     c_id(nav_bar_item$college_id)
+#     output$sideTilte <- renderUI({ bs4SidebarUserPanel(img = "utas-logo-int.png", text = nav_bar_item$college_short_name) })
+# })
+# # ------------------------------------------------------------- #
+# # CALE ####
+# # ------------------------------------------------------------- #
+# observeEvent(input$CALE,
+# {
+#     nav_bar_item <- nav_bar_df() %>% filter(college_short_name == "CALE")
+#     college_vector(nav_bar_item)
+#     c_id(nav_bar_item$college_id)
+#     output$sideTilte <- renderUI({ bs4SidebarUserPanel(img = "utas-logo-int.png", text = nav_bar_item$college_short_name) })
+# })
+# # ------------------------------------------------------------- #
+# # COHM ####
+# # ------------------------------------------------------------- #
+# observeEvent(input$COHM,
+# {
+#     nav_bar_item <- nav_bar_df() %>% filter(college_short_name == "COHM")
+#     college_vector(nav_bar_item)
+#     c_id(nav_bar_item$college_id)
+#     output$sideTilte <- renderUI({ bs4SidebarUserPanel(img = "utas-logo-int.png", text = nav_bar_item$college_short_name) })
+# })
 # ------------------------------------------------------------- #
 # MODULES ###################################
 # ------------------------------------------------------------- #
@@ -82,47 +110,9 @@ callModule(main_module
 # END MODULES ###################################
 # ------------------------------------------------------------- #
 # ------------------------------------------------------------- #
-# NAV BAR Buttons ######
-# ------------------------------------------------------------- #
-output$firstButton <- renderUI(
-{
-        actionBttn(inputId = nav_bar_df()$college_short_name[1]
-                   , label = nav_bar_df()$college_long_name[1]
-                   , size = BUTTON_SIZE
-                   , icon = NULL
-                   , style= BUTTON_STYLE)
-})
-# ------------------------------------------------------------- #
-output$secondButton <- renderUI(
-{
-        actionBttn(inputId = nav_bar_df()$college_short_name[2]
-                   , label = nav_bar_df()$college_long_name[2]
-                   , size = BUTTON_SIZE
-                   , icon = NULL
-                   , style= BUTTON_STYLE)
-})
-# ------------------------------------------------------------- #
-output$thirdButton <- renderUI(
-{
-        actionBttn(inputId = nav_bar_df()$college_short_name[3]
-                   , label = nav_bar_df()$college_long_name[3]
-                   , size = BUTTON_SIZE
-                   , icon = NULL
-                   , style= BUTTON_STYLE)
-})
-# ------------------------------------------------------------- #
-output$fourthButton <- renderUI(
-{
-        actionBttn(inputId = nav_bar_df()$college_short_name[4]
-                   , label = nav_bar_df()$college_long_name[4]
-                   , size = BUTTON_SIZE
-                   , icon = NULL
-                   , style= BUTTON_STYLE)
-})
-# ------------------------------------------------------------- #
-# ------------------------------------------------------------- #
-# ------------------------------------------------------------- #
 # OBSERVE EVENTS ###################################
+# ------------------------------------------------------------- #
+observe(college_vector(nav_bar_df() %>% filter(college_id == c_id())))
 # ------------------------------------------------------------- #
 observeEvent(input$add_strategy,
 {
@@ -156,8 +146,8 @@ observeEvent(input$initiative_ok,
 observeEvent(input$strategy_choice,
              {
                  s_id(unlist(strategy_df() %>% 
-                                 filter(strategy_name == req(input$strategy_choice)) %>% 
-                                 distinct(strategy_id), use.names = F))
+                        filter(strategy_name == req(input$strategy_choice)) %>% 
+                        distinct(strategy_id), use.names = F))
              })
 
 # ------------------------------------------------------------- #
@@ -236,15 +226,29 @@ output$new_milestone_description <- renderUI(
                       , height = MILESTONE_TEXT_AREA_HEIGHT)
     })
 # ------------------------------------------------------------- #
+# USER LOG ON PANEL #########################
+# ------------------------------------------------------------- #
+output$utas_username <- renderUI(
+    {
+        textInput(inputId = "utas_username"
+                      , label = "Please enter your UTAS Username"
+                      , placeholder = req(userInfo()$login)
+                      , width = TEXT_AREA_WIDTH)
+    })
+# ------------------------------------------------------------- #
+output$pass_word <- renderUI(
+    {
+        passwordInput("password_string", "Password:"
+                      , value = ""
+                      , width = TEXT_AREA_WIDTH
+                      , placeholder = "Please use your UTAS Passwoard")   
+    })
+# ------------------------------------------------------------- #
+output$sideTilte <- renderUI({ bs4SidebarUserPanel(img = "utas-logo-int.png", text = college_vector()$college_short_name) })
+# ------------------------------------------------------------- #
 output$body <- renderUI(
     { 
-        if(is_empty(college_vector()))
-        {
-            tagList(fluidPage(summary_moduleUI("summary_interface"))) 
-        }
-        else
-        {
-            tagList(
+             tagList(
                 tabBox(
                     id = paste0(college_vector()$college_short_name,"_tab")
                     , width = 12
@@ -253,8 +257,15 @@ output$body <- renderUI(
                     # --------------------------------------------- #
                     # --------------------------------------------- #
                     , bs4TabPanel(
+                        tabName = paste0("Summary - ", college_vector()$college_short_name)
+                        , active = T
+                        , "Summary"
+                        #, "Provider Group Profile"
+                        , summary_moduleUI("summary_interface"))
+                    # --------------------------------------------- #
+                    , bs4TabPanel(
                         tabName = paste0("Strategy - ", college_vector()$college_short_name)
-                        , active = TRUE
+                        , active = F
                         #, "DMS Item Codes"
                         #, "Summary"
                         #  , summary_moduleUI("summary_interface")
@@ -272,31 +283,16 @@ output$body <- renderUI(
                         , active = F
                         #, "DMS Item Codes"
                         # , dms_item_codes_moduleUI("dms_item_codes_interface")
-                    ),
-                    # --------------------------------------------- #
-                    bs4TabPanel(
-                        tabName = paste0("Spare - ", college_vector()$college_short_name)
-                        , active = F
-                        #, "DMS Item Codes"
-                        #, "Provider Group Profile"
-                        # , pgp_moduleUI("pgp_interface")
                     )
                     # --------------------------------------------- #
                     # --------------------------------------------- #
                 )# end tabBox
             ) #end taglist 
-        } # end if
     }) # END renderUI
 # ------------------------------------------------------------- #
 output$left_side_nav_buttons <- renderUI(
     { 
-        if(is_empty(college_vector()))
-        {
-            tagList(renderUI({   }) ) 
-        }
-        else
-        {
-        tagList(
+          tagList(
               actionBttn(inputId = "add_strategy"
                        , label = "Add Strategy"
                        , size = BUTTON_SIZE
@@ -316,9 +312,7 @@ output$left_side_nav_buttons <- renderUI(
                          , size = BUTTON_SIZE
                          , icon = NULL
                          , style= BUTTON_STYLE
-                         , block = T)
-            ) #end taglist
-        }
+                         , block = T)) #end taglist
     })
 # ------------------------------------------------------------- #
 output$strategy_picker <- renderUI(
@@ -353,11 +347,19 @@ output$start_date_picker <- renderUI(
 })
 # ------------------------------------------------------------- #
 output$end_date_picker <- renderUI(
-    {
+{
         dateInput("end_date", label = "Milestone End Date", value = Sys.time())
-    })
+})
 # ------------------------------------------------------------- #
-
+output$college_picker <- renderUI(
+{
+    college_list <- unlist(nav_bar_df() %>% select(college_long_name),  use.names = F)
+    selectInput(inputId="college_choice"
+                ,label="Please Select Your College:"
+                , choices= college_list
+                , selected="Please Select A College"
+                , width = "100%")
+})
 # ------------------------------------------------------------- #
 }) # END SERVER
 # ------------------------------------------------------------- #

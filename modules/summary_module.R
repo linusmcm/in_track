@@ -125,7 +125,7 @@ summary_module <- function(input, output, session, nav_bar_df)
               , subtitle = paste0(nav_bar_DF()$college_short_name[4]," - ", MILESTONE_PROGRESS_STATUS[2])
               , status = "success"
               , icon = "trophy"
-              , elevation = 5
+              , elevation = DROP_SHADOW_ELEVATION
               , href = "#")
     })
   # ------------------------------------------------------------------------#c
@@ -138,7 +138,7 @@ summary_module <- function(input, output, session, nav_bar_df)
             , subtitle = paste0(nav_bar_DF()$college_short_name[3]," - ", MILESTONE_PROGRESS_STATUS[2])
             , status = "success"
             , icon = "trophy"
-            , elevation = 5
+            , elevation = DROP_SHADOW_ELEVATION
             , href = "#")
   })
   # ------------------------------------------------------------------------#
@@ -151,7 +151,7 @@ summary_module <- function(input, output, session, nav_bar_df)
             , subtitle = paste0(nav_bar_DF()$college_short_name[2]," - ", MILESTONE_PROGRESS_STATUS[2])
             , status = "success"
             , icon = "trophy"
-            , elevation = 5
+            , elevation = DROP_SHADOW_ELEVATION
             , href = "#")
   })
   # ------------------------------------------------------------------------#
@@ -164,7 +164,7 @@ summary_module <- function(input, output, session, nav_bar_df)
       , subtitle = paste0(nav_bar_DF()$college_short_name[1]," - ", MILESTONE_PROGRESS_STATUS[2])
       , status = "success"
       , icon = "trophy"
-      , elevation = 5
+      , elevation = DROP_SHADOW_ELEVATION
       , href = "#")
   })
   # ------------------------------------------------------------------------#
@@ -179,7 +179,7 @@ summary_module <- function(input, output, session, nav_bar_df)
       , subtitle = paste0(nav_bar_DF()$college_short_name[4]," - ", MILESTONE_PROGRESS_STATUS[3])
       , status = "warning"
       , icon = "bug"
-      , elevation = 5
+      , elevation = DROP_SHADOW_ELEVATION
       , href = "#")
   })
   # ------------------------------------------------------------------------#c
@@ -192,7 +192,7 @@ summary_module <- function(input, output, session, nav_bar_df)
       , subtitle = paste0(nav_bar_DF()$college_short_name[3]," - ", MILESTONE_PROGRESS_STATUS[3])
       , status = "warning"
       , icon = "bug"
-      , elevation = 5
+      , elevation = DROP_SHADOW_ELEVATION
       , href = "#")
   })
   # ------------------------------------------------------------------------#
@@ -205,7 +205,7 @@ summary_module <- function(input, output, session, nav_bar_df)
       , subtitle = paste0(nav_bar_DF()$college_short_name[2]," - ", MILESTONE_PROGRESS_STATUS[3])
       , status = "warning"
       , icon = "bug"
-      , elevation = 5
+      , elevation = DROP_SHADOW_ELEVATION
       , href = "#")
   })
   # ------------------------------------------------------------------------#
@@ -218,7 +218,7 @@ summary_module <- function(input, output, session, nav_bar_df)
       , subtitle = paste0(nav_bar_DF()$college_short_name[1]," - ", MILESTONE_PROGRESS_STATUS[3])
       , status = "warning"
       , icon = "bug"
-      , elevation = 5
+      , elevation = DROP_SHADOW_ELEVATION
       , href = "#")
   })
   # ------------------------------------------------------------------------#
@@ -234,7 +234,7 @@ summary_module <- function(input, output, session, nav_bar_df)
           , subtitle = paste0(nav_bar_DF()$college_short_name[4]," - ", MILESTONE_PROGRESS_STATUS[4])
           , status = "danger"
           , icon = "bomb"
-          , elevation = 5
+          , elevation = DROP_SHADOW_ELEVATION
           , href = "#")
   })
   # ------------------------------------------------------------------------#c
@@ -247,7 +247,7 @@ summary_module <- function(input, output, session, nav_bar_df)
         , subtitle = paste0(nav_bar_DF()$college_short_name[3]," - ", MILESTONE_PROGRESS_STATUS[4])
         , status = "danger"
         , icon = "bomb"
-        , elevation = 5
+        , elevation = DROP_SHADOW_ELEVATION
         , href = "#")
   })
   # ------------------------------------------------------------------------#
@@ -260,7 +260,7 @@ summary_module <- function(input, output, session, nav_bar_df)
       , subtitle = paste0(nav_bar_DF()$college_short_name[2]," - ", MILESTONE_PROGRESS_STATUS[4])
       , status = "danger"
       , icon = "bomb"
-      , elevation = 5
+      , elevation = DROP_SHADOW_ELEVATION
       , href = "#")
   })
   # ------------------------------------------------------------------------#
@@ -273,11 +273,11 @@ summary_module <- function(input, output, session, nav_bar_df)
       , subtitle = paste0(nav_bar_DF()$college_short_name[1]," - ", MILESTONE_PROGRESS_STATUS[4])
       , status = "danger"
       , icon = "bomb"
-      , elevation = 5
+      , elevation = DROP_SHADOW_ELEVATION
       , href = "#")
   })
   # ------------------------------------------------------------------------#
-  # ------------------------------------------------------------------------#
+  # "Milestone Complete" ########
   # ------------------------------------------------------------------------#
   output$cobeBox <- renderUI(
     {
@@ -289,7 +289,7 @@ summary_module <- function(input, output, session, nav_bar_df)
         , value = h4(boxValue)
         , icon = "check"
         , width = 12
-        , elevation = 5)
+        , elevation = DROP_SHADOW_ELEVATION)
     })
   # ------------------------------------------------------------------------#
   output$caleBox <- renderUI(
@@ -302,7 +302,7 @@ summary_module <- function(input, output, session, nav_bar_df)
         , value = h4(boxValue)
         , icon = "check"
         , width = 12
-        , elevation = 5)
+        , elevation = DROP_SHADOW_ELEVATION)
     })
   # ------------------------------------------------------------------------#
   output$coseBox <- renderUI(
@@ -315,7 +315,7 @@ summary_module <- function(input, output, session, nav_bar_df)
         , value = h4(boxValue)
         , icon = "check"
         , width = 12
-        , elevation = 5)
+        , elevation = DROP_SHADOW_ELEVATION)
     })
   # ------------------------------------------------------------------------#
   output$cohmBox <- renderUI(
@@ -328,7 +328,7 @@ summary_module <- function(input, output, session, nav_bar_df)
         , value = h4(boxValue)
         , icon = "check"
         , width = 12
-        , elevation = 5)
+        , elevation = DROP_SHADOW_ELEVATION)
     })
   # ------------------------------------------------------------------------------ #
   # END SERVER MODULE ------------------------------------------------------#
@@ -375,7 +375,6 @@ summary_module <- function(input, output, session, nav_bar_df)
 #       select(college_id, strategy_id, college_short_name, strategy_name, style, start_date, end_date)
 
 # # ------------------------------------------------------------------------#
-# 
 # group_time_line <- reactive(
 #   {
 #     return(
@@ -397,12 +396,7 @@ summary_module <- function(input, output, session, nav_bar_df)
 #             , fit = T
 #             , options = list(stack = T))
 #   })
-# 
-# 
-# 
-# 
 # # ------------------------------------------------------------------------#
-# 
 # timedata <- data.frame(
 #       id = 1:nrow(df)
 #      , start = unlist(df$start_date, use.names = F)
@@ -411,12 +405,9 @@ summary_module <- function(input, output, session, nav_bar_df)
 #      , group = unlist(df$college_id, use.names = F)
 #      , subgroup = unlist(df$strategy_id, use.names = F)
 #      )
-# 
 # counter <- length(unique(df$college_short_name))
 # groups <- data.frame(id = unlist(unique(df$college_id)), content = unique(df$college_short_name))
 # timevis::timevis(data = timedata, groups = groups, options = list(stack = T))
-# 
-# 
 # # ------------------------------------------------------------------------#
 # main_modul_read_initiative <- function(id_list)
 # {

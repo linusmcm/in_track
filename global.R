@@ -14,6 +14,8 @@ library(RMySQL)
 library(DBI)
 library(rJava)
 library(timevis)
+library(keyring)
+library(shinylogs)
 # sort(unique(odbcListDrivers()[[1]]))
 #install.packages("timevis")
 # ------------------------------------------------------------- #
@@ -28,6 +30,7 @@ BUTTON_STYLE <<- "bordered"
 BUTTON_SIZE <<- "sm"
 TEXT_AREA_WIDTH <<- '465px'
 MILESTONE_TEXT_AREA_HEIGHT <<- '265px'
+DROP_SHADOW_ELEVATION <<- 3
 DROP_SHADOW_TEXT <<- " -webkit-box-shadow: 3px 3px 3px 0px rgba(181,181,181,1); -moz-box-shadow: 3px 3px 3px 0px rgba(181,181,181,1); box-shadow: 3px 3px 3px 0px rgba(181,181,181,1);"
 # ------------------------------------------------------------- #
 databaseName <<- "g6Mj2lugZA"
@@ -57,6 +60,7 @@ jdbcDriver <- JDBC(driverClass="com.mysql.cj.jdbc.Driver"
 db <<- dbConnect(jdbcDriver, "jdbc:mysql://remotemysql.com:3306/g6Mj2lugZA","g6Mj2lugZA","ipYc79lTd0")
 # ------------------------------------------------------------- #
 options(shiny.trace=TRUE)
+#dbDisconnect(db)
 # ------------------------------------------------------------- #
 # ------------------------------------------------------------- #
 # DATA BASE CALLS #######
@@ -72,6 +76,8 @@ data_connection <- function()
                     , password = options()$mysql$password)) 
 }
 # ------------------------------------------------------------- #
+load_nav_bar_menu()
+
 load_nav_bar_menu <- function() 
 {
     colleges <- dbGetQuery(db, "SELECT * FROM colleges")
@@ -93,6 +99,14 @@ write_strategy <- function(c_id, s_name, s_description)
     
 }
 # ------------------------------------------------------------- #
+# ------------------------------------------------------------- #
+read_user <- function(u_name)
+{
+    df <- dbGetQuery(db, "SELECT * FROM users") %>% 
+        filter(user_name == u_name)
+    return(df)
+}
+# ------------------------------------------------------------- #
 read_strategies <- function(c_id)
 {
     df <- dbGetQuery(db, "SELECT * FROM strategy") %>% 
@@ -101,6 +115,18 @@ read_strategies <- function(c_id)
     return(df)
 }
 # ------------------------------------------------------------- #
+add_user_data <- function(c_id, user_info)
+{
+    df <- data.frame(
+          user_id = round(runif(1, 1, 90000000),0)
+         , user_name = user_info$login
+        , first_name = user_info$effective_user
+        , second_name = user_info$sysname
+        , college_ID = c_id
+        , date_created = Sys.Date())
+    rs <- dbWriteTable(db, "users", df, append = T, overwrite = F)
+    return(rs)
+}
 # ------------------------------------------------------------- #
 read_initiative <- function(c_id, s_id)
 {
@@ -214,5 +240,22 @@ milestone_load <- function(failed = FALSE)
             actionButton("milestone_ok", "OK")))
 }
 # ------------------------------------------------------------- #
+# ------------------------------------------------------------- #
+load_user_Modal <- function(failed = FALSE) 
+{
+    modalDialog(
+        size = "m"
+        , easyClose = F
+        , fade = T
+        , title = "Please Enter Your Log on Details:"
+        #, uiOutput("college_picker")
+        #, uiOutput("utas_username")
+        #, uiOutput("pass_word")
+        , footer = tagList(
+            modalButton("Cancel"),
+            actionButton("load_user_ok", "OK")))
+}
+# ------------------------------------------------------------- #
+
 # MODULE FUNCTION CALLS ########
 # ------------------------------------------------------------- #
