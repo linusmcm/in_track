@@ -1,6 +1,7 @@
 shinyServer(function(input, output, session) 
 {
-    # ------------------------------------------------------------- #
+    track_usage(storage_mode = store_rds(path = paste0(getwd(),"/logs")))  
+     # ------------------------------------------------------------- #
     # INITIAL Loader ######
     # ------------------------------------------------------------- #    
     # REACTIVE VALUES ###################################
@@ -19,9 +20,39 @@ shinyServer(function(input, output, session)
     # ------------------------------------------------------------- #    
     nav_bar_df <- reactive(load_nav_bar_menu())
     # ------------------------------------------------------------- #
+    userInfo <- reactiveVal(NULL)
+    userInfo(data.frame(sysname = Sys.info()[1],login = Sys.info()[6],user = Sys.info()[7],effective_user = Sys.info()[8]))
     # ------------------------------------------------------------- #
+    # ------------------------------------------------------------- #
+    onStart <- NULL
+    # ------------------------------------------------------------- #
+    if(is.null(onStart))
+    {
+        showModal(load_user_Modal())
+    }
+    # ------------------------------------------------------------- #
+    observeEvent(input$load_user_ok,
+                 {
+                     c_id(unlist(req(nav_bar_df()) %>% filter(college_long_name == req(input$college_choice)) %>% select(college_id), use.names = F))
+                     #user_name(req(input$utas_username))
+                     #user_password(req(input$password_string))
+                     rValue <- add_user_data(c_id(), userInfo())
+                     if_else(rValue == T, removeModal(), NULL)
+                     #if_else(rValue == T, u_id(read_user(userInfo()$login)), NULL)
+                     onStart <- T
+                 })
+    # ------------------------------------------------------------- #
+    #observe(college_vector(nav_bar_df() %>% filter(college_id == c_id())))
+    
+    
     # COSE ####
     # ------------------------------------------------------------- #
+    
+    
+    
+    
+    
+    
     observeEvent(input$COSE,
                  {
                      nav_bar_item <- nav_bar_df() %>% filter(college_short_name == "COSE")
@@ -357,7 +388,17 @@ shinyServer(function(input, output, session)
             dateInput("end_date", label = "Milestone End Date", value = Sys.time())
         })
     # ------------------------------------------------------------- #
-    
+    # ------------------------------------------------------------- #
+    output$college_picker <- renderUI(
+        {
+            college_list <- unlist(nav_bar_df() %>% distinct(college_long_name),  use.names = F)
+            selectInput(inputId="college_choice"
+                        ,label="Please Select Your College:"
+                        , choices= college_list
+                        , selected="Please Select A College"
+                        , width = "100%")
+        })
+    # ------------------------------------------------------------- #
     # ------------------------------------------------------------- #
 }) # END SERVER
 # ------------------------------------------------------------- #

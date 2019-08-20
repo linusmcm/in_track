@@ -246,7 +246,7 @@ load_user_Modal <- function(failed = FALSE)
         , easyClose = F
         , fade = T
         , title = "Please Enter Your Log on Details:"
-        #, uiOutput("college_picker")
+        , uiOutput("college_picker")
         #, uiOutput("utas_username")
         #, uiOutput("pass_word")
         , footer = tagList(
