@@ -28,6 +28,7 @@ BUTTON_STYLE <<- "bordered"
 BUTTON_SIZE <<- "sm"
 TEXT_AREA_WIDTH <<- '465px'
 MILESTONE_TEXT_AREA_HEIGHT <<- '265px'
+DROP_SHADOW_TEXT <<- " -webkit-box-shadow: 3px 3px 3px 0px rgba(181,181,181,1); -moz-box-shadow: 3px 3px 3px 0px rgba(181,181,181,1); box-shadow: 3px 3px 3px 0px rgba(181,181,181,1);"
 # ------------------------------------------------------------- #
 databaseName <<- "g6Mj2lugZA"
 # ------------------------------------------------------------- #

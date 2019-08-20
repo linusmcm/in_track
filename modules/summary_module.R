@@ -75,9 +75,9 @@ summary_module <- function(input, output, session, nav_bar_df)
         group_by(college_id, college_short_name, strategy_id, strategy_name ) %>%
         summarise(start_date = min(start_date), end_date = max(end_date), target_days = difftime(end_date, Sys.time(),units="days")) %>%
         mutate(style = case_when(
-          target_days > 14 ~ "color: #fff; background-color: #28a745; border-color: #191818;"
-          , target_days >= 1 & target_days < 13 ~ "color: #191818; background-color: #ffc107; border-color: #191818;"
-          , target_days <= 0 ~ "color: #fff; background-color: #e42312; border-color: #191818;")) %>% 
+          target_days > 14 ~ paste0("color: #fff; background-color: #28a745; border-color: #191818;", DROP_SHADOW_TEXT)
+          , target_days >= 1 & target_days < 13 ~ paste0("color: #191818; background-color: #ffc107; border-color: #191818;", DROP_SHADOW_TEXT)
+          , target_days <= 0 ~ paste0("color: #fff; background-color: #e42312; border-color: #191818;", DROP_SHADOW_TEXT))) %>% 
         select(college_id, strategy_id, college_short_name, strategy_name, style, start_date, end_date))
     })  
   
