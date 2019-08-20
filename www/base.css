@@ -38,4 +38,14 @@ h3.card-title.p-3.ml-auto{
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     color: #fff;
     background-color: #e42312;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(181,181,181,1); 
+    -moz-box-shadow: 3px 3px 3px 0px rgba(181,181,181,1); 
+    box-shadow: 3px 3px 3px 0px rgba(181,181,181,1);
+}
+
+div.small-box.bg-danger.elevation-5 {
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(181,181,181,1); 
+    -moz-box-shadow: 3px 3px 3px 0px rgba(181,181,181,1); 
+    box-shadow: 3px 3px 3px 0px rgba(181,181,181,1);
+}
 }
