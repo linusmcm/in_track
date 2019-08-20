@@ -26,7 +26,7 @@ shinyUI(
                             , uiOutput("secondButton")
                             , uiOutput("thirdButton")
                             , uiOutput("fourthButton")
-                            , uiOutput("loadMarker")
+                            #, uiOutput("loadMarker")
                              )),
         # ---------------------------------------------------------------------- #
         sidebar = bs4DashSidebar(
