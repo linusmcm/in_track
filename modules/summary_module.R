@@ -290,49 +290,49 @@ summary_module <- function(input, output, session, nav_bar_df)
 } 
 # 
 # 
-nav_bar_DF <- dbGetQuery(db, "SELECT * FROM colleges")
-
-main_strategy_df <- dbGetQuery(db, "SELECT * FROM strategy") %>%
-                  filter(active_strategy =="y") %>%
-                  select(-date_created, -active_strategy)
-
-combined_df <- main_strategy_df %>% left_join(nav_bar_DF)
-s_list <-  unlist(combined_df %>% distinct(strategy_id), use.names = F)
-
-main_init_df <- main_modul_read_initiative(s_list)
-int_list <- unlist(main_init_df %>% distinct(initiative_id), use.names = F)
-main_mile_df <- main_modul_read_milestone(int_list)
-
-
-short_df <- combined_df %>% left_join(main_init_df, by= "strategy_id")
-strategy_df <- main_mile_df %>% left_join(short_df, by="initiative_id")
-
-df <- strategy_df %>%
-  group_by(college_id, college_short_name, strategy_id, strategy_name ) %>%
-  summarise(start_date = min(start_date), end_date = max(end_date), target_days = difftime(end_date, Sys.time(),units="days")) %>%
-  mutate(style = case_when(
-              target_days > 14 ~ "color: success;"
-              , target_days >= 1 & target_days < 13 ~ "color: warning;"
-              , target_days <= 0 ~ "color: danger;"
-              )) %>% 
-  select(college_id, strategy_id, college_short_name, strategy_name, target_days, style, start_date, end_date)
-
-
-
-# ------------------------------------------------------------------------#
-
-timedata <- data.frame(
-      id = 1:nrow(df)
-     , start = unlist(df$start_date, use.names = F)
-     , end = unlist(df$end_date, use.names = F)
-     , content = unlist(df$strategy_name, use.names = F)
-     , group = unlist(df$college_id, use.names = F)
-     , subgroup = unlist(df$strategy_id, use.names = F)
-     )
-
-counter <- length(unique(df$college_short_name))
-groups <- data.frame(id = unlist(unique(df$college_id)), content = unique(df$college_short_name))
-timevis::timevis(data = timedata, groups = groups, options = list(stack = T))
+# nav_bar_DF <- dbGetQuery(db, "SELECT * FROM colleges")
+# 
+# main_strategy_df <- dbGetQuery(db, "SELECT * FROM strategy") %>%
+#                   filter(active_strategy =="y") %>%
+#                   select(-date_created, -active_strategy)
+# 
+# combined_df <- main_strategy_df %>% left_join(nav_bar_DF)
+# s_list <-  unlist(combined_df %>% distinct(strategy_id), use.names = F)
+# 
+# main_init_df <- main_modul_read_initiative(s_list)
+# int_list <- unlist(main_init_df %>% distinct(initiative_id), use.names = F)
+# main_mile_df <- main_modul_read_milestone(int_list)
+# 
+# 
+# short_df <- combined_df %>% left_join(main_init_df, by= "strategy_id")
+# strategy_df <- main_mile_df %>% left_join(short_df, by="initiative_id")
+# 
+# df <- strategy_df %>%
+#   group_by(college_id, college_short_name, strategy_id, strategy_name ) %>%
+#   summarise(start_date = min(start_date), end_date = max(end_date), target_days = difftime(end_date, Sys.time(),units="days")) %>%
+#   mutate(style = case_when(
+#               target_days > 14 ~ "color: success;"
+#               , target_days >= 1 & target_days < 13 ~ "color: warning;"
+#               , target_days <= 0 ~ "color: danger;"
+#               )) %>% 
+#   select(college_id, strategy_id, college_short_name, strategy_name, target_days, style, start_date, end_date)
+# 
+# 
+# 
+# # ------------------------------------------------------------------------#
+# 
+# timedata <- data.frame(
+#       id = 1:nrow(df)
+#      , start = unlist(df$start_date, use.names = F)
+#      , end = unlist(df$end_date, use.names = F)
+#      , content = unlist(df$strategy_name, use.names = F)
+#      , group = unlist(df$college_id, use.names = F)
+#      , subgroup = unlist(df$strategy_id, use.names = F)
+#      )
+# 
+# counter <- length(unique(df$college_short_name))
+# groups <- data.frame(id = unlist(unique(df$college_id)), content = unique(df$college_short_name))
+# timevis::timevis(data = timedata, groups = groups, options = list(stack = T))
 
 # 
 # # ------------------------------------------------------------------------#
